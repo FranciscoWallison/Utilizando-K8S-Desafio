@@ -1,0 +1,25 @@
+steps:
+- id: "Build GO LANG - gcp "
+  name: 'mirror.gcr.io/library/golang'
+  env: ['GO111MODULE=on']
+  args: ['go','build','golang/main.go']
+
+- id: "test"
+  name: 'mirror.gcr.io/library/golang'
+  args: ['go','test', '-v']
+  dir: 'golang/'
+
+- id: "build imagem"
+  name: 'gcr.io/cloud-builders/docker'
+  args:
+  - 'build'
+  - '--build-arg'
+  - 'version=1.1.0'
+  - '-t'
+  - 'gcr.io/$PROJECT_ID/server-golang:1.1.0'
+  - 'golang/'
+- name: 'gcr.io/$PROJECT_ID/docker-compose:1.25.5'
+  args: ['version']
+
+images: 
+- 'gcr.io/$PROJECT_ID/server-golang'

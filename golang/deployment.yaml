@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: go-lang-server
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: go-lang-server-web
+      tier: web
+  
+  template :
+    metadata: 
+      labels:
+        app: go-lang-server-web
+        tier: web
+    spec:
+      containers:
+      - image: chicowall/code-education-go-rocks
+        name: server-go-codeeducation
